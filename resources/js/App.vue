@@ -1,7 +1,7 @@
 <script setup>
-import List from './Pages/Fruits/List.vue'
+import Layout from './Layouts/Layout.vue'
 </script>
 
 <template>
-    <List></List>
+    <Layout></Layout>
 </template>

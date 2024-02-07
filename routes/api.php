@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\FruitsController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\Auth\PasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +22,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/list',[FruitsController::class,'list']);
-Route::put('/update/{fruit}',[FruitsController::class,'update']);
-Route::post('/create',[FruitsController::class,'create']);
-Route::delete('/delete/{fruit}',[FruitsController::class,'delete']);
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/fruits/list',[FruitsController::class,'list']);
+    Route::put('/fruits/update/{fruit}',[FruitsController::class,'update']);
+    Route::post('/fruits/create',[FruitsController::class,'create']);
+    Route::delete('/fruits/delete/{fruit}',[FruitsController::class,'delete']);
+
+    Route::get('/auth/list',[UsersController::class,'list']);
+    Route::post('/auth/create',[UsersController::class,'create']);
+    Route::get('/auth/user',[UsersController::class,'user']);
+    Route::patch('/auth/update',[UsersController::class,'update']);
+    Route::put('/auth/password', [PasswordController::class, 'update']);
+});
