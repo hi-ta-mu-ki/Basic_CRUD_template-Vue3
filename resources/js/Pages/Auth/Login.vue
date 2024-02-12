@@ -20,6 +20,7 @@ const login = () =>{
                         console.log('login status:'+res.data.status);
                         if(res.data.status==200){
                             st.setLogin();
+                            st.setRole(res.data.role)
                             dialogVisible.value=false;
                         }else{
                             ElNotification({

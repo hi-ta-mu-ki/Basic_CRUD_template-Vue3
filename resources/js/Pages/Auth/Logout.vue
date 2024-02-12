@@ -11,6 +11,7 @@ const logout =()=>{
     axios.post('/logout').then((res)=>{
                         console.log('logout response:'+res.data.message);
                         st.setLogout();
+                        st.abandonRole();
                         router.push({name:'auth.login'})
                     }).catch((err)=>{
                         console.log('logout error:'+err);
