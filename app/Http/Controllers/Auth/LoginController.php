@@ -33,6 +33,7 @@ final class LoginController extends Controller
             return new JsonResponse([
                 'message' => 'Authenticated.',
                 'status' => 200,
+                'role' => $this->auth->user()->role
             ]);
         }
 

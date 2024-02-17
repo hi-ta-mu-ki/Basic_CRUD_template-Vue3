@@ -1,59 +1,61 @@
 <script setup>
 import { onMounted,ref } from 'vue';
-import USER_ROLE from "../../const"
+import { useRoute } from 'vue-router';
 
 const items = ref(null);
 const itemsTotal = ref(0);
 const page = ref(1);
-
 const setPage = (val)=>{
     page.value = val;
     reLoadItems();
 }
+const item = ref(null);
 
+const route = useRoute();
 import axios from 'axios';
 const reLoadItems = (filter='')=>{
     const params={page:page.value};
     if(filter!==''){
         params['filter']=filter;
-    }
-    axios.get('/api/auth/list',{
-                    params:params
-                })
-                .then((res)=>{
-                items.value = res.data.data;
-                itemsTotal.value = res.data.total;
-                });
+    } 
+    axios.get('/api/transaction/edit_order/'+route.params.id)
+        .then((res)=>{
+            items.value = res.data.data;
+            itemsTotal.value = res.data.total;
+        });
+}
+const getName = ()=>{
+    axios.get('/api/transaction/add_order/'+route.params.id)
+        .then((res)=>{
+            item.value = res.data;
+        });
 }
 
 onMounted(()=>{
+    getName();
     reLoadItems();
 })
 
-import Edit from '@/Pages/Auth/Edit.vue'
+import Edit from '@/Pages/Transaction/EditDetail.vue'
 const editRef = ref();
 
-import Add from '@/Pages/Auth/Add.vue'
+import Add from '@/Pages/Transaction/AddDetail.vue'
 const addRef = ref();
 
-import Delete from '@/Pages/Auth/Delete.vue'
+import Delete from '@/Pages/Transaction/DeleteDetail.vue'
 const deleteRef = ref();
 
 import Filter from '@/Pages/Common/Filter.vue'
 </script>
 
 <template>
+    <div>Order</div>
+    <div v-if="item!=null">client name:{{ item.nameb }}<br />tel:{{ item.tel }}</div>
     <Filter @reLoad="reLoadItems"></Filter>
     <el-table :data="items" style="width: 100%">
-        <el-table-column prop="id" label="id" width="80" />
-        <el-table-column prop="name" label="name" />    
-        <el-table-column prop="email" label="e-mail" />    
-        <el-table-column prop="role" label="role">    
-            <template #default="scope">
-                <div v-if="scope.row.role <= USER_ROLE.admin" >admin</div>
-                <div v-else>user</div>
-            </template>
-        </el-table-column>
+        <el-table-column prop="id2" label="id" width="80" />
+        <el-table-column prop="namea" label="name" />
+        <el-table-column prop="quantity" label="quantity" />
         <el-table-column fixed="right" label="operation" width="120">
             <template #default="scope">
                 <el-button link type="primary" 

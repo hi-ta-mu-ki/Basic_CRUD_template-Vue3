@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted,ref } from 'vue';
-import USER_ROLE from "../../const"
 
 const items = ref(null);
 const itemsTotal = ref(0);
@@ -16,27 +15,27 @@ const reLoadItems = (filter='')=>{
     const params={page:page.value};
     if(filter!==''){
         params['filter']=filter;
-    }
-    axios.get('/api/auth/list',{
-                    params:params
-                })
-                .then((res)=>{
-                items.value = res.data.data;
-                itemsTotal.value = res.data.total;
-                });
+    } 
+    axios.get('/api/a_master/list',{
+            params:params
+        })
+        .then((res)=>{
+            items.value = res.data.data;
+            itemsTotal.value = res.data.total;
+        });
 }
 
 onMounted(()=>{
     reLoadItems();
 })
 
-import Edit from '@/Pages/Auth/Edit.vue'
+import Edit from '@/Pages/A_master/Edit.vue'
 const editRef = ref();
 
-import Add from '@/Pages/Auth/Add.vue'
+import Add from '@/Pages/A_master/Add.vue'
 const addRef = ref();
 
-import Delete from '@/Pages/Auth/Delete.vue'
+import Delete from '@/Pages/A_master/Delete.vue'
 const deleteRef = ref();
 
 import Filter from '@/Pages/Common/Filter.vue'
@@ -46,12 +45,13 @@ import Filter from '@/Pages/Common/Filter.vue'
     <Filter @reLoad="reLoadItems"></Filter>
     <el-table :data="items" style="width: 100%">
         <el-table-column prop="id" label="id" width="80" />
-        <el-table-column prop="name" label="name" />    
-        <el-table-column prop="email" label="e-mail" />    
-        <el-table-column prop="role" label="role">    
+        <el-table-column prop="name" label="name" />
+        <el-table-column prop="price" label="price" width="100"
+            header-align="center" align="right">
             <template #default="scope">
-                <div v-if="scope.row.role <= USER_ROLE.admin" >admin</div>
-                <div v-else>user</div>
+                <div v-if="scope.row.price" >
+                    {{scope.row.price.toLocaleString()}}
+                </div>
             </template>
         </el-table-column>
         <el-table-column fixed="right" label="operation" width="120">

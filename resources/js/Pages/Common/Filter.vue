@@ -17,7 +17,7 @@ watch(filterText,
 
 </script>
 <template>
-    <el-form-item label="絞り込み" >
+    <el-form-item label="Filter" >
         <el-input v-model="filterText" autocomplete="off" />
     </el-form-item>
 </template>

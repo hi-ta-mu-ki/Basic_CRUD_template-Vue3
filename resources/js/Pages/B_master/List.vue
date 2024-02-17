@@ -1,14 +1,18 @@
 <script setup>
-import { onMounted,ref } from 'vue';
+import { reactive,onMounted,ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const items = ref(null);
 const itemsTotal = ref(0);
 const page = ref(1);
-
 const setPage = (val)=>{
     page.value = val;
     reLoadItems();
 }
+const item = ref(0);
+const form=reactive({
+    b_masters_id:'',
+});
 
 import axios from 'axios';
 const reLoadItems = (filter='')=>{
@@ -16,7 +20,7 @@ const reLoadItems = (filter='')=>{
     if(filter!==''){
         params['filter']=filter;
     } 
-    axios.get('/api/fruits/list',{
+    axios.get('/api/b_master/list',{
             params:params
         })
         .then((res)=>{
@@ -29,47 +33,60 @@ onMounted(()=>{
     reLoadItems();
 })
 
-import Edit from '@/Pages/Fruits/Edit.vue'
+const router = useRouter();
+const order = (val) =>{
+    form.b_masters_id = val.id;
+    axios.post('/api/transaction/create01',form)
+        .then((res)=>{
+            item.value = res.data;
+            router.push(`/transaction/order/`+item.value.id);
+        }).catch((error)=>{
+            ElNotification({
+            title: 'Error',
+            message: 'Not created.',
+            type: 'error',
+        })
+    });
+}
+
+import Edit from '@/Pages/B_master/Edit.vue'
 const editRef = ref();
 
-import Add from '@/Pages/Fruits/Add.vue'
+import Add from '@/Pages/B_master/Add.vue'
 const addRef = ref();
 
-import Delete from '@/Pages/Fruits/Delete.vue'
+import Delete from '@/Pages/B_master/Delete.vue'
 const deleteRef = ref();
 
-import Filter from '@/Pages/Fruits/Filter.vue'
+import Filter from '@/Pages/Common/Filter.vue'
 </script>
 
 <template>
     <Filter @reLoad="reLoadItems"></Filter>
     <el-table :data="items" style="width: 100%">
         <el-table-column prop="id" label="id" width="80" />
-        <el-table-column prop="name" label="名称" />
-        <el-table-column prop="price" label="価格" width="100"
-            header-align="center" align="right">
-            <template #default="scope">
-                <div v-if="scope.row.price" >
-                    {{scope.row.price.toLocaleString()}}
-                </div>
-            </template>
-        </el-table-column>
-        <el-table-column fixed="right" label="操作" width="120">
+        <el-table-column prop="name" label="name" />
+        <el-table-column prop="tel" label="tel" width="200" />
+        <el-table-column fixed="right" label="operation" width="120">
             <template #default="scope">
                 <el-button link type="primary" 
+                    @click.prevent="order(items[scope.$index])">
+                    order
+                </el-button>
+                <el-button link type="primary" 
                     @click.prevent="editRef.open(items[scope.$index])">
-                    編集
+                    edit
                 </el-button>
                 <el-button link type="primary"
                     @click.prevent="deleteRef.open(items[scope.$index])">
-                    削除
+                    delete
                 </el-button>
             </template>
         </el-table-column>
     </el-table>
     <el-pagination layout="prev, pager, next" :total="itemsTotal" @current-change="setPage"></el-pagination>
     <el-button @click="addRef.open()">
-        新規作成
+        add
     </el-button>
     <Add ref="addRef" @reLoad="reLoadItems"></Add>
     <Edit ref="editRef" @reLoad="reLoadItems"></Edit>
