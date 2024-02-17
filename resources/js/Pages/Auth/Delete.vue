@@ -8,7 +8,7 @@ const emit = defineEmits(['reLoad']);
 
 const open=(item)=>{
         ElMessageBox.confirm(
-            item.name+'を削除します。よろしいですか?',
+            item.name+' will be deleted. Is it OK?',
             'Warning',
             {
             confirmButtonText: 'OK',
@@ -21,20 +21,20 @@ const open=(item)=>{
             .then((res)=>{
                 ElNotification({
                     type: 'success',
-                    message: item.name+'を削除しました',
+                    message: item.name+' was deleted.',
                 });
                 emit('reLoad');
             }).catch((error)=>{
                 ElNotification({
                     type: 'error',
-                    message: item.name+'の削除に失敗しました',
+                    message: item.name+' was not deleted.',
                 });
             })
         })
         .catch(() => {
             ElNotification({
                 type: 'info',
-                message: '削除をキャンセルしました',
+                message: 'You have canceled.',
             });
         });
 }

@@ -16,6 +16,8 @@ import * as vueRouter from "vue-router";
 import Layout from './Layouts/Layout.vue'
 import A_masterList from './Pages/A_master/List.vue'
 import B_masterList from './Pages/B_master/List.vue'
+import transactionList from './Pages/Transaction/List.vue'
+import transactionOrder from './Pages/Transaction/Order.vue'
 import Login from './Pages/Auth/Login.vue'
 import Logout from './Pages/Auth/Logout.vue'
 import authList from './Pages/Auth/List.vue'
@@ -35,6 +37,16 @@ const routes = [
         path: '/b_master',
         name: 'b_master.list',
         component: B_masterList
+    },
+    {
+        path: '/transaction',
+        name: 'transaction.list',
+        component: transactionList
+    },
+    {
+        path: '/transaction/order/:id',
+        name: 'transaction.order',
+        component: transactionOrder
     },
     {
         path: '/',

@@ -1,6 +1,6 @@
 <script setup>
-import { reactive,onMounted,ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted,ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 const items = ref(null);
 const itemsTotal = ref(0);
@@ -9,70 +9,55 @@ const setPage = (val)=>{
     page.value = val;
     reLoadItems();
 }
-const item = ref(0);
-const form=reactive({
-    b_masters_id:'',
-});
+const item = ref(null);
 
+const route = useRoute();
 import axios from 'axios';
 const reLoadItems = (filter='')=>{
     const params={page:page.value};
     if(filter!==''){
         params['filter']=filter;
     } 
-    axios.get('/api/b_master/list',{
-            params:params
-        })
+    axios.get('/api/transaction/edit_order/'+route.params.id)
         .then((res)=>{
             items.value = res.data.data;
             itemsTotal.value = res.data.total;
         });
 }
+const getName = ()=>{
+    axios.get('/api/transaction/add_order/'+route.params.id)
+        .then((res)=>{
+            item.value = res.data;
+        });
+}
 
 onMounted(()=>{
+    getName();
     reLoadItems();
 })
 
-const router = useRouter();
-const order = (val) =>{
-    form.b_masters_id = val.id;
-    axios.post('/api/transaction/create01',form)
-        .then((res)=>{
-            item.value = res.data;
-            router.push(`/transaction/order/`+item.value.id);
-        }).catch((error)=>{
-            ElNotification({
-            title: 'Error',
-            message: 'Not created.',
-            type: 'error',
-        })
-    });
-}
-
-import Edit from '@/Pages/B_master/Edit.vue'
+import Edit from '@/Pages/Transaction/EditDetail.vue'
 const editRef = ref();
 
-import Add from '@/Pages/B_master/Add.vue'
+import Add from '@/Pages/Transaction/AddDetail.vue'
 const addRef = ref();
 
-import Delete from '@/Pages/B_master/Delete.vue'
+import Delete from '@/Pages/Transaction/DeleteDetail.vue'
 const deleteRef = ref();
 
 import Filter from '@/Pages/Common/Filter.vue'
 </script>
 
 <template>
+    <div>Order</div>
+    <div v-if="item!=null">client name:{{ item.nameb }}<br />tel:{{ item.tel }}</div>
     <Filter @reLoad="reLoadItems"></Filter>
     <el-table :data="items" style="width: 100%">
-        <el-table-column prop="id" label="id" width="80" />
-        <el-table-column prop="name" label="name" />
-        <el-table-column prop="tel" label="tel" width="200" />
+        <el-table-column prop="id2" label="id" width="80" />
+        <el-table-column prop="namea" label="name" />
+        <el-table-column prop="quantity" label="quantity" />
         <el-table-column fixed="right" label="operation" width="120">
             <template #default="scope">
-                <el-button link type="primary" 
-                    @click.prevent="order(items[scope.$index])">
-                    order
-                </el-button>
                 <el-button link type="primary" 
                     @click.prevent="editRef.open(items[scope.$index])">
                     edit

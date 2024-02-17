@@ -14,7 +14,7 @@ const create=()=>{
         .then((res)=>{
         ElNotification({
             title: 'Success',
-            message: form.name+'was created',
+            message: form.name+' was created.',
             type: 'success',
         })
         emit('reLoad');
@@ -22,7 +22,7 @@ const create=()=>{
         }).catch((error)=>{
             ElNotification({
             title: 'Error',
-            message: form.name+'was created',
+            message: form.name+' was created.',
             type: 'error',
         })
     });

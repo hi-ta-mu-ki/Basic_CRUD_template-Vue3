@@ -8,7 +8,7 @@ const emit = defineEmits(['reLoad']);
 
 const open=(item)=>{
         ElMessageBox.confirm(
-            item.name+' will be deleted. Is it OK?',
+            item.namea+' will be deleted. Is it OK?',
             'Warning',
             {
             confirmButtonText: 'OK',
@@ -17,17 +17,17 @@ const open=(item)=>{
             }
         )
         .then(() => {
-            axios.delete('/api/a_master/delete/'+item.id)
+            axios.delete('/api/transaction/delete02/'+item.id2)
             .then((res)=>{
                 ElNotification({
                     type: 'success',
-                    message: item.name+' was deleted.',
+                    message: item.namea+' was deleted.',
                 });
                 emit('reLoad');
             }).catch((error)=>{
                 ElNotification({
                     type: 'error',
-                    message: item.name+' was not deleted.',
+                    message: item.namea+' was not deleted.',
                 });
             })
         })

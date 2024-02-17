@@ -47,7 +47,7 @@ const create=()=>{
     .then((res)=>{
         ElNotification({
             title: 'Success',
-            message: 'created',
+            message: 'Created.',
             type: 'success',
         })
         emit('reLoad');
@@ -57,7 +57,7 @@ const create=()=>{
         console.log('error '+error);
         ElNotification({
             title: 'Error',
-            message: 'not created',
+            message: 'Not created.',
             type: 'error',
         });
     });

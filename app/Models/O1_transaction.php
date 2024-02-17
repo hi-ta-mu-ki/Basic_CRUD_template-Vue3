@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class B_master extends Model
+class O1_transaction extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'tel',
+        'b_masters_id',
     ];
 
-    public function o1_transactions()
+    public function b_masters()
     {
-        return $this->hasMany('App\Models\O1_transaction');
+        return $this->belongsTo('App\Models\B_master');
     }
-
 }

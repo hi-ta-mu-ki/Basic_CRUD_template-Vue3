@@ -15,14 +15,14 @@ const update=()=>{
         .then((res)=>{
             ElNotification({
             title: 'Success',
-            message: form.name+'was updated',
+            message: form.name+' was updated.',
             type: 'success',
             })
             emit('reLoad');
         }).catch((error)=>{
             ElNotification({
             title: 'Error',
-            message: form.name+'was not updated',
+            message: form.name+' was not updated.',
             type: 'error',
             })
         });
@@ -31,7 +31,7 @@ const update=()=>{
 const open=(item)=>{
     form.id=item.id;
     form.name=item.name;
-    form.price=item.price;
+    form.tel=item.tel;
     isVisible.value=true;
 }
 defineExpose({
@@ -49,7 +49,7 @@ defineExpose({
                 <el-input v-model="form.name" autocomplete="off" />
             </el-form-item>
             <el-form-item label="tel" :label-width="140">
-                <el-input v-model="form.price" autocomplete="off" />
+                <el-input v-model="form.tel" autocomplete="off" />
             </el-form-item>
         </el-form>
         <template #footer>

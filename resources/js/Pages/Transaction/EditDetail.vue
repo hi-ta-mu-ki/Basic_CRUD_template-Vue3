@@ -11,7 +11,7 @@ const form=reactive({
     price:null,
 });
 const update=()=>{
-    axios.put('/api/a_master/update/'+form.id,form)
+    axios.put('/api/transaction/update/'+form.id,form)
         .then((res)=>{
             ElNotification({
             title: 'Success',
@@ -29,9 +29,9 @@ const update=()=>{
 }
 
 const open=(item)=>{
-    form.id=item.id;
-    form.name=item.name;
-    form.price=item.price;
+    form.id=item.id2;
+    form.namea=item.namea;
+    form.quantity=item.quantity;
     isVisible.value=true;
 }
 defineExpose({
@@ -40,16 +40,20 @@ defineExpose({
 </script>
 
 <template>
-    <el-dialog v-model="isVisible" title="A_master Edit">
+    <el-dialog v-model="isVisible" title="Transaction Edit">
         <el-form :model="form">
             <el-form-item label="id" :label-width="140">
                 {{ form.id }}
             </el-form-item>
             <el-form-item label="name" :label-width="140">
-                <el-input v-model="form.name" autocomplete="off" />
+                {{ form.namea }}
             </el-form-item>
-            <el-form-item label="price" :label-width="140">
-                <el-input v-model="form.price" autocomplete="off" />
+            <el-form-item label="quantity" :label-width="140">
+                <el-input-number
+                    v-model="form.quantity"
+                    :min="0"
+                    controls-position="right"
+                    />
             </el-form-item>
         </el-form>
         <template #footer>

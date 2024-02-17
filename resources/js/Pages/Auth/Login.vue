@@ -25,7 +25,7 @@ const login = () =>{
                         }else{
                             ElNotification({
                                 title: 'Error',
-                                message: 'ログイン失敗しました',
+                                message: 'You failed to login.',
                                 type: 'error',
                             })
                         }

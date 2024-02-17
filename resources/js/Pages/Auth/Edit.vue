@@ -66,14 +66,14 @@ const changePassword = ()=>{
             console.log('password change success');
             ElNotification({
                 title: 'Success',
-                message: 'updated',
+                message: 'Updated.',
                 type: 'success',
             })
         }).catch((error)=>{
             console.log('error '+error);
             ElNotification({
                 title: 'Error',
-                message: 'not updated',
+                message: 'Not updated.',
                 type: 'error',
             })
         });

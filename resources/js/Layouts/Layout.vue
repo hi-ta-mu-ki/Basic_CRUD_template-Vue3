@@ -22,6 +22,9 @@ const st = useLoginState();
                     <el-menu-item index="b_master.list" :route="{ name:'b_master.list' }">
                         B_master
                     </el-menu-item>
+                    <el-menu-item index="transaction.list" :route="{ name:'transaction.list' }">
+                        Transaction
+                    </el-menu-item>
                 </span>
             </el-menu>
         </el-aside>
